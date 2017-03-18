@@ -64,13 +64,48 @@ Copy libs to the same place you installed OpenBlas. Kaldi will look at this dire
 
 ```
 sudo apt-get install clang
+
 git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
+
 cd kaldi-android/tools
 
-sed -i 's:cd openfst-$(OPENFST_VERSION)/; ./configure --prefix=`pwd` --enable-static --enable-shared --enable-far --enable-ngram-fsts CXX=$(CXX) CXXFLAGS="$(CXXFLAGS)" LDFLAGS="$(LDFLAGS)" LIBS="-ldl":cd openfst-$(OPENFST_VERSION)/; ./configure --prefix=`pwd` --host=arm-linux-androideabi --enable-static --enable-shared --enable-far --enable-ngram-fsts CXX=$(CXX) CXXFLAGS="$(CXXFLAGS)" LDFLAGS="$(LDFLAGS)" LIBS="-ldl":g' Makefile # compile openfst for arm
+wget wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz 
+tar -zxvf openfst-1.6.2.tar.gz
+```
 
-make
+Add the following snippet to openfst-1.6.2/src/lib/symbol-table-ops.cc.
 
+```
+#include <string>
+#include <sstream>
+
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+```
+
+Then, replace `std::to_string` that is in line 114 of this file (symbol-table-ops.cc) to `patch::to_string`.  It solves a problem when trying to compile openfst with arm-linux-androideabi-g++. 
+
+Now, let's compile OpenFst using the Android toolchain:
+
+```
+export PATH=/tmp/my-android-toolchain/bin:$PATH # to find out arm-linux-androideabi-g++
+
+./configure --prefix=`pwd` --enable-static --enable-shared --enable-far --enable-ngram-fsts --host=arm-linux-androideabi LIBS="-ldl"
+
+make -j8
+```
+
+
+After finishing it, let's compile kaldi source code:
+
+```
 cd ../src
 export PATH=/tmp/my-android-toolchain/bin:$PATH # to find out arm-linux-androideabi-clang++
 
@@ -83,6 +118,5 @@ sed -i 's:-DHAVE_EXECINFO_H=1 -DHAVE_CXXABI_H -DHAVE_OPENBLAS -DANDROID_BUILD:-D
 make clean -j
 make depend -j
 make -j 8
-
 
 ```
