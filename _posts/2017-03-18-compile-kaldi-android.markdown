@@ -29,7 +29,7 @@ You can install these components using the SDK Manager:
 ```
 export PATH=/tmp/my-android-toolchain:$PATH
 ```
-where /tmp/my-android-toolchain is the path to the standalone-toolchain installed in the previous step.
+where `/tmp/my-android-toolchain` is the path to the standalone-toolchain installed in the previous step.
 
 ### Build without Fortran for ARMV7
 ```
@@ -51,7 +51,8 @@ sed -i 's:LOCAL_MODULE:= testlapack:#LOCAL_MODULE:= testlapack:g' jni/Android.mk
 sed -i 's:LOCAL_SRC_FILES:= testclapack.cpp:#LOCAL_SRC_FILES:= testclapack.cpp:g' jni/Android.mk
 sed -i 's:LOCAL_STATIC_LIBRARIES := lapack:#LOCAL_STATIC_LIBRARIES := lapack:g' jni/Android.mk
 sed -i 's:include $(BUILD_SHARED_LIBRARY):#include $(BUILD_SHARED_LIBRARY):g' jni/Android.mk
-ndk-bundle/ndk-build
+
+<NDK root dir>/ndk-build
 ```
 
 Libs will be created in `obj/local/armeabi[-v7a]/`.
