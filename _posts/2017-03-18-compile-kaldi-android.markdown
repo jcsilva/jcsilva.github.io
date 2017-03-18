@@ -15,15 +15,21 @@ To compile and debug native code for your app, you need the following components
 * LLDB: the debugger Android Studio uses to debug native code.
 You can install these components using the SDK Manager:
 
-1. From an open project, select Tools > Android > SDK Manager from the main menu.
+1. From an open project, select **Tools > Android > SDK Manager** from the main menu.
 2. Click the SDK Tools tab.
 3. Check the boxes next to LLDB, CMake, and NDK.
 4. Click Apply, and then click OK in the next dialog.
 5. When the installation is complete, click Finish, and then click OK.
-6. Install the toolchain: <NDK root dir>/build/tools/make_standalone_toolchain.py --arch arm --api 21 --install-dir /tmp/my-android-toolchain
+6. Install the toolchain: `<NDK root dir>/build/tools/make_standalone_toolchain.py --arch arm --api 21 --install-dir /tmp/my-android-toolchain`
 
 
 ## Compile OpenBlas for Android (https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android)
+
+## Download source
+```
+git clone https://github.com/xianyi/OpenBLAS
+git checkout 99880f7
+```
 
 ### Add the Android toolchain to your path
 ```
@@ -47,17 +53,18 @@ make install PREFIX=`pwd`/install
 ```
 git clone https://github.com/simonlynen/android_libs.git
 cd android_libs/lapack
-sed -i 's:LOCAL_MODULE:= testlapack:#LOCAL_MODULE:= testlapack:g' jni/Android.mk
-sed -i 's:LOCAL_SRC_FILES:= testclapack.cpp:#LOCAL_SRC_FILES:= testclapack.cpp:g' jni/Android.mk
-sed -i 's:LOCAL_STATIC_LIBRARIES := lapack:#LOCAL_STATIC_LIBRARIES := lapack:g' jni/Android.mk
-sed -i 's:include $(BUILD_SHARED_LIBRARY):#include $(BUILD_SHARED_LIBRARY):g' jni/Android.mk
+git checkout a71cd07d418a
+sed -i 's/LOCAL_MODULE:= testlapack/#LOCAL_MODULE:= testlapack/g' jni/Android.mk
+sed -i 's/LOCAL_SRC_FILES:= testclapack.cpp/#LOCAL_SRC_FILES:= testclapack.cpp/g' jni/Android.mk
+sed -i 's/LOCAL_STATIC_LIBRARIES := lapack/#LOCAL_STATIC_LIBRARIES := lapack/g' jni/Android.mk
+sed -i 's/include $(BUILD_SHARED_LIBRARY)/#include $(BUILD_SHARED_LIBRARY)/g' jni/Android.mk
 
 <NDK root dir>/ndk-build
 ```
 
 Libs will be created in `obj/local/armeabi[-v7a]/`.
 
-Copy libs to the same place you installed OpenBlas. Kaldi will look at this directory for libf2c.a, liblapack.a, libclapack.a and libblas.a.
+**Copy libs (.a) to the same place you installed OpenBlas**. Kaldi will look at this directory for libf2c.a, liblapack.a, libclapack.a and libblas.a.
 
 
 ## Compile kaldi for Android
@@ -69,7 +76,9 @@ git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
 
 cd kaldi-android/tools
 
-wget wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz 
+git checkout 3fec956be88
+
+wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz 
 tar -zxvf openfst-1.6.2.tar.gz
 ```
 
@@ -95,11 +104,19 @@ Then, replace `std::to_string` that is in line 114 of this file (symbol-table-op
 Now, let's compile OpenFst using the Android toolchain:
 
 ```
-export PATH=/tmp/my-android-toolchain/bin:$PATH # to find out arm-linux-androideabi-g++
+export PATH=/tmp/my-android-toolchain/bin:$PATH
+
+cd openfst-1.6.2/
 
 ./configure --prefix=`pwd` --enable-static --enable-shared --enable-far --enable-ngram-fsts --host=arm-linux-androideabi LIBS="-ldl"
 
-make -j8
+make -j 4
+
+make install 
+
+cd ..
+
+ln -s openfst-1.6.2 openfst
 ```
 
 
@@ -107,16 +124,19 @@ After finishing it, let's compile kaldi source code:
 
 ```
 cd ../src
-export PATH=/tmp/my-android-toolchain/bin:$PATH # to find out arm-linux-androideabi-clang++
 
-CXX=clang++ ./configure --static --openblas-root=/media/data/git/OpenBLAS/install --android-incdir=/tmp/my-android-toolchain/sysroot/usr/include/ --host=arm-linux-androideabi
+export PATH=/tmp/my-android-toolchain/bin:$PATH
+
+CXX=clang++ ./configure --static --android-incdir=/tmp/my-android-toolchain/sysroot/usr/include/ --host=arm-linux-androideabi --openblas-root=/path/to/OpenBLAS/install
 
 sed -i 's:ANDROIDINCDIR:ANDROIDINC:g' kaldi.mk
 
 sed -i 's:-DHAVE_EXECINFO_H=1 -DHAVE_CXXABI_H -DHAVE_OPENBLAS -DANDROID_BUILD:-DHAVE_CXXABI_H -DHAVE_OPENBLAS -DANDROID_BUILD:g' kaldi.mk
 
 make clean -j
+
 make depend -j
-make -j 8
+
+make -j 4
 
 ```
