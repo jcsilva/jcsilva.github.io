@@ -25,7 +25,7 @@ You can install these components using the SDK Manager:
 
 ## Compile OpenBlas for Android (https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android)
 
-## Download source
+#### Download source
 ```
 git clone https://github.com/xianyi/OpenBLAS
 
