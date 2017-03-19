@@ -6,7 +6,7 @@ author:     "Eduardo Silva"
 header-img: "img/post-bg-02.jpg"
 ---
 
-## First of all, download Android NDK
+## Download Android NDK
 
 To compile and debug native code for your app, you need the following components:
 
