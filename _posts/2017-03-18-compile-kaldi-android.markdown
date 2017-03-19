@@ -6,7 +6,7 @@ author:     "Eduardo Silva"
 header-img: "img/post-bg-02.jpg"
 ---
 
-## First of all, download Android NDK (https://developer.android.com/ndk/guides/index.html):
+## First of all, download Android NDK
 
 To compile and debug native code for your app, you need the following components:
 
@@ -23,7 +23,7 @@ You can install these components using the SDK Manager:
 6. Install the toolchain: `<NDK root dir>/build/tools/make_standalone_toolchain.py --arch arm --api 21 --install-dir /tmp/my-android-toolchain`
 
 
-## Compile OpenBlas for Android (https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android)
+## Compile OpenBlas for Android
 
 #### Download source
 ```
@@ -145,3 +145,11 @@ make depend -j
 make -j 4
 
 ```
+
+## References
+
+[https://developer.android.com/ndk/guides/index.html]
+
+[https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android]
+
+[http://stackoverflow.com/questions/12975341/to-string-is-not-a-member-of-std-says-g-mingw]
