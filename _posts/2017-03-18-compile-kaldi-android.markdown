@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Compile Kaldi in Android"
+title:      "Compile Kaldi for Android"
 date:       2017-03-18 12:00:00
 author:     "Eduardo Silva"
 header-img: "img/post-bg-02.jpg"
@@ -28,21 +28,23 @@ You can install these components using the SDK Manager:
 ## Download source
 ```
 git clone https://github.com/xianyi/OpenBLAS
+
+# The commit we used
 git checkout 99880f7
 ```
 
-### Add the Android toolchain to your path
+#### Add the Android toolchain to your path
 ```
 export PATH=/tmp/my-android-toolchain:$PATH
 ```
 where `/tmp/my-android-toolchain` is the path to the standalone-toolchain installed in the previous step.
 
-### Build without Fortran for ARMV7
+#### Build without Fortran for ARMV7
 ```
 make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 libs
 ```
 
-### Install library
+#### Install library
 ```
 make install PREFIX=`pwd`/install
 ```
@@ -54,11 +56,14 @@ make install PREFIX=`pwd`/install
 git clone https://github.com/simonlynen/android_libs.git
 cd android_libs/lapack
 git checkout a71cd07d418a
+
+# remove some compile instructions related to tests
 sed -i 's/LOCAL_MODULE:= testlapack/#LOCAL_MODULE:= testlapack/g' jni/Android.mk
 sed -i 's/LOCAL_SRC_FILES:= testclapack.cpp/#LOCAL_SRC_FILES:= testclapack.cpp/g' jni/Android.mk
 sed -i 's/LOCAL_STATIC_LIBRARIES := lapack/#LOCAL_STATIC_LIBRARIES := lapack/g' jni/Android.mk
 sed -i 's/include $(BUILD_SHARED_LIBRARY)/#include $(BUILD_SHARED_LIBRARY)/g' jni/Android.mk
 
+# build for android
 <NDK root dir>/ndk-build
 ```
 
