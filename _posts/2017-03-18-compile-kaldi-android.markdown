@@ -81,7 +81,8 @@ git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
 
 cd kaldi-android/tools
 
-git checkout 3fec956be88
+# This commit fixes some issues with ANDROIDINCDIR variable.
+git checkout 25ca8e4b0
 
 wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
 tar -zxvf openfst-1.6.2.tar.gz
@@ -133,10 +134,6 @@ cd ../src
 export PATH=/tmp/my-android-toolchain/bin:$PATH
 
 CXX=clang++ ./configure --static --android-incdir=/tmp/my-android-toolchain/sysroot/usr/include/ --host=arm-linux-androideabi --openblas-root=/path/to/OpenBLAS/install
-
-sed -i 's:ANDROIDINCDIR:ANDROIDINC:g' kaldi.mk
-
-sed -i 's:-DHAVE_EXECINFO_H=1 -DHAVE_CXXABI_H -DHAVE_OPENBLAS -DANDROID_BUILD:-DHAVE_CXXABI_H -DHAVE_OPENBLAS -DANDROID_BUILD:g' kaldi.mk
 
 make clean -j
 
