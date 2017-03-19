@@ -148,8 +148,8 @@ make -j 4
 
 ## References
 
-[https://developer.android.com/ndk/guides/index.html]
+https://developer.android.com/ndk/guides/index.html
 
-[https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android]
+https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android
 
-[http://stackoverflow.com/questions/12975341/to-string-is-not-a-member-of-std-says-g-mingw]
+http://stackoverflow.com/questions/12975341/to-string-is-not-a-member-of-std-says-g-mingw
