@@ -81,9 +81,6 @@ git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
 
 cd kaldi-android/tools
 
-# This commit fixes some issues with ANDROIDINCDIR variable.
-git checkout 25ca8e4b0
-
 wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
 tar -zxvf openfst-1.6.2.tar.gz
 ```
@@ -107,7 +104,7 @@ namespace patch
 
 Then, replace `std::to_string` that is in line 114 of this file (symbol-table-ops.cc) to `patch::to_string`.  It solves a problem when trying to compile openfst with arm-linux-androideabi-g++.
 
-Now, let's compile OpenFst using the Android toolchain:
+Now, compile OpenFst using the Android toolchain:
 
 ```
 export PATH=/tmp/my-android-toolchain/bin:$PATH
@@ -126,10 +123,13 @@ ln -s openfst-1.6.2 openfst
 ```
 
 
-After finishing it, let's compile kaldi source code:
+After finishing it, compile kaldi source code:
 
 ```
 cd ../src
+
+# This commit fixes some issues with ANDROIDINCDIR variable.
+git checkout 25ca8e4b0
 
 export PATH=/tmp/my-android-toolchain/bin:$PATH
 
