@@ -83,7 +83,7 @@ cd kaldi-android/tools
 
 git checkout 3fec956be88
 
-wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz 
+wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
 tar -zxvf openfst-1.6.2.tar.gz
 ```
 
@@ -104,7 +104,7 @@ namespace patch
 }
 ```
 
-Then, replace `std::to_string` that is in line 114 of this file (symbol-table-ops.cc) to `patch::to_string`.  It solves a problem when trying to compile openfst with arm-linux-androideabi-g++. 
+Then, replace `std::to_string` that is in line 114 of this file (symbol-table-ops.cc) to `patch::to_string`.  It solves a problem when trying to compile openfst with arm-linux-androideabi-g++.
 
 Now, let's compile OpenFst using the Android toolchain:
 
@@ -117,7 +117,7 @@ cd openfst-1.6.2/
 
 make -j 4
 
-make install 
+make install
 
 cd ..
 
@@ -143,13 +143,12 @@ make clean -j
 make depend -j
 
 make -j 4
-
 ```
 
 ## References
 
-https://developer.android.com/ndk/guides/index.html
+<https://developer.android.com/ndk/guides/index.html>
 
-https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android
+<https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android>
 
-http://stackoverflow.com/questions/12975341/to-string-is-not-a-member-of-std-says-g-mingw
+<http://stackoverflow.com/questions/12975341/to-string-is-not-a-member-of-std-says-g-mingw>
