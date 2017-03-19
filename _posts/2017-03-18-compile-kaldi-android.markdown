@@ -82,6 +82,7 @@ git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
 cd kaldi-android/tools
 
 wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
+
 tar -zxvf openfst-1.6.2.tar.gz
 ```
 
