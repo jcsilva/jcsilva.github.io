@@ -34,16 +34,14 @@ For more details about it, please read <https://developer.android.com/ndk/guides
 
 ## Compile OpenBlas for Android
 
+The following instructions were tested on commit SHA 99880f7.
+But they should work in more recent versions.
+
 #### Download source
 
 ```
 git clone https://github.com/xianyi/OpenBLAS
 ```
-
-When I was compiling this code, the most recent commit	 had SHA 99880f7. 
-I believe these instructions should work with most recent code versions.
-But if you face any problem, you can checkout this specific version. 
-
 
 #### Add the Android toolchain to your path
 
