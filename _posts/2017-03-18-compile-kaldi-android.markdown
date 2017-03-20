@@ -6,6 +6,8 @@ author:     "Eduardo Silva"
 header-img: "img/post-bg-02.jpg"
 ---
 
+The following instructions were tested in Ubuntu 16.04.
+
 ## Download Android NDK
 
 To compile native code you need the following component:
