@@ -35,27 +35,31 @@ For more details about it, please read <https://developer.android.com/ndk/guides
 ## Compile OpenBlas for Android
 
 #### Download source
+
 ```
 git clone https://github.com/xianyi/OpenBLAS
 ```
 
-When I was compiling this code, the most recent commit had SHA 99880f7. 
-I believe these should work with most recent code versions. But if you face any problem, 
-you can checkout this specific version. 
+When I was compiling this code, the most recent commit	 had SHA 99880f7. 
+I believe these instructions should work with most recent code versions.
+But if you face any problem, you can checkout this specific version. 
 
 
 #### Add the Android toolchain to your path
+
 ```
 export PATH=/tmp/my-android-toolchain:$PATH
 ```
 where `/tmp/my-android-toolchain` is the path to the standalone-toolchain installed in the previous step.
 
 #### Build without Fortran for ARMV7
+
 ```
 make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 libs
 ```
 
 #### Install library
+
 ```
 make install PREFIX=`pwd`/install
 ```
@@ -108,7 +112,7 @@ git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
 
 #### Compile OpenFST
 
-In the instructions, we are using OpenFST-1.6.2. But you should use the current version used in your Kaldi repository. You may find out it looking at tools/Makefile.
+In the instructions, we are using OpenFST-1.6.2. But you should use the current version used in your Kaldi repository. You may discover it looking at tools/Makefile.
 
 ```
 export PATH=/tmp/my-android-toolchain/bin:$PATH
@@ -117,7 +121,7 @@ cd kaldi-android/tools
 
 wget -T 10 -t 1 http://openfst.cs.nyu.edu/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
 
-tar -zxvf openfst-1.6.2.tar.gz
+	tar -zxvf openfst-1.6.2.tar.gz
 
 cd openfst-1.6.2/
 
