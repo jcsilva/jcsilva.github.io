@@ -27,8 +27,8 @@ Finally, install the toolchain. You **must** explicitly specify `--stl=libc++`, 
 <NDK root dir>/build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl=libc++ --install-dir /tmp/my-android-toolchain
 ```
 
-This command creates a directory named /tmp/my-android-toolchain/, 
-containing a copy of the android-21/arch-arm sysroot, 
+This command creates a directory named /tmp/my-android-toolchain/,
+containing a copy of the android-21/arch-arm sysroot,
 and of the toolchain binaries for a 32-bit ARM architecture.
 
 For more details about it, please read <https://developer.android.com/ndk/guides/standalone_toolchain.html>.
@@ -67,7 +67,7 @@ make install PREFIX=`pwd`/install
 
 ## Compile CLAPACK for Android
 
-I tested it in commit SHA a71cd07d418a. 
+I tested it in commit SHA a71cd07d418a.
 But it should work with more recent versions of this code.
 
 ```
@@ -85,9 +85,10 @@ sed -i 's/include $(BUILD_SHARED_LIBRARY)/#include $(BUILD_SHARED_LIBRARY)/g' jn
 <NDK root dir>/ndk-build
 ```
 
-Libs will be created in `obj/local/armeabi[-v7a]/`.
+Libs will be created in `obj/local/armeabi-v7a/`.
 
-**Copy libs to the same place you installed OpenBlas**. Kaldi will look at this directory for libf2c.a, liblapack.a, libclapack.a and libblas.a.
+**Copy libs from `obj/local/armeabi-v7a/` to the same place you installed OpenBlas**.
+Kaldi will look at this  directory for libf2c.a, liblapack.a, libclapack.a and libblas.a.
 
 
 ## Compile kaldi for Android
@@ -109,7 +110,8 @@ git clone https://github.com/kaldi-asr/kaldi.git kaldi-android
 
 #### Compile OpenFST
 
-In the instructions, we are using OpenFST-1.6.2. But you should use the current version used in your Kaldi repository. You may discover it looking at tools/Makefile.
+In the instructions, we are using OpenFST-1.6.2. But you should use the current
+version used in your Kaldi repository. You may discover it looking at tools/Makefile.
 
 ```
 export PATH=/tmp/my-android-toolchain/bin:$PATH
@@ -148,6 +150,11 @@ make depend -j
 
 make -j 4
 ```
+
+When using Kaldi in Android you may need to install `libc++_shared.so` (which is
+located at `/tmp/my-android-toolchain/arm-linux-androideabi/lib/armv7-a/` in your
+host machine) in your Android system. As I was working with a rooted phone, I
+just copied it to `/system/lib`.
 
 ## References
 
