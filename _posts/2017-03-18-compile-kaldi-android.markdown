@@ -48,7 +48,7 @@ git clone https://github.com/xianyi/OpenBLAS
 #### Add the Android toolchain to your path
 
 ```
-export PATH=/tmp/my-android-toolchain:$PATH
+export PATH=/tmp/my-android-toolchain/bin:$PATH
 ```
 where `/tmp/my-android-toolchain` is the path to the standalone-toolchain installed in the previous step.
 
@@ -95,12 +95,6 @@ Kaldi will look at this  directory for libf2c.a, liblapack.a, libclapack.a and l
 
 The following instructions should work with the most recent version of Kaldi.
 If it doesn't, you may checkout commit SHA 25ca8e4b0.
-
-#### Install clang
-
-```
-sudo apt-get install clang
-```
 
 #### Download kaldi source code
 
