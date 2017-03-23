@@ -60,8 +60,14 @@ where `/tmp/my-android-toolchain` is the path to the standalone-toolchain instal
 #### Build for ARMV7
 
 ```
-make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 libs
+make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 NUM_THREADS=1 libs
 ```
+
+OBS: The variable **NUM_THREADS** does not need to be always set to 1. In my case, I had 
+problems when running in my phone. I received the message: 
+`BLAS : Program is Terminated. Because you tried to allocate too many memory regions.`. 
+Looking for solutions, I found this (github issue)[https://github.com/xianyi/OpenBLAS/issues/889],
+which suggests reducing **NUM_THREADS** to solve the problem.
 
 #### Install library
 
