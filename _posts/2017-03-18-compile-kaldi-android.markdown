@@ -45,6 +45,11 @@ But they should work in more recent versions.
 git clone https://github.com/xianyi/OpenBLAS
 ```
 
+#### Install gfortran
+```
+sudo apt-get install gfortran
+```
+
 #### Add the Android toolchain to your path
 
 ```
@@ -52,7 +57,7 @@ export PATH=/tmp/my-android-toolchain/bin:$PATH
 ```
 where `/tmp/my-android-toolchain` is the path to the standalone-toolchain installed in the previous step.
 
-#### Build without Fortran for ARMV7
+#### Build for ARMV7
 
 ```
 make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 libs
