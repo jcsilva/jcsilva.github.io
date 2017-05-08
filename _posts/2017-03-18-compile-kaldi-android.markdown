@@ -34,7 +34,7 @@ and of the toolchain binaries for a 32-bit ARM architecture.
 For more details about it, please read <https://developer.android.com/ndk/guides/standalone_toolchain.html>.
 
 
-## Compile OpenBlas for Android
+## Compile OpenBLAS for Android
 
 The following instructions were tested on commit SHA 99880f7.
 But they should work in more recent versions.
@@ -60,14 +60,19 @@ where `/tmp/my-android-toolchain` is the path to the standalone-toolchain instal
 #### Build for ARMV7
 
 ```
-make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 NUM_THREADS=1 libs
+make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 NUM_THREADS=32 libs
 ```
 
-OBS: The variable **NUM_THREADS** does not need to be always set to 1. In my case, I had 
+OBS: The variable **NUM_THREADS** does not need to be always set to 32. In my case, I had
 problems when running in my phone. I received the message: 
 `BLAS : Program is Terminated. Because you tried to allocate too many memory regions.`. 
-Looking for solutions, I found this (github issue)[https://github.com/xianyi/OpenBLAS/issues/889],
-which suggests reducing **NUM_THREADS** to solve the problem.
+Looking for solutions, I found this instruction at OpenBLAS FAQ (https://github.com/xianyi/OpenBLAS/wiki/faq#allocmorebuffers):
+
+```
+[...] This error indicates that the program exceeded the number of buffers.
+Please build OpenBLAS with larger NUM_THREADS.
+For example, make NUM_THREADS=32 or make NUM_THREADS=64 [...]
+```
 
 #### Install library
 
@@ -86,6 +91,11 @@ git clone https://github.com/simonlynen/android_libs.git
 
 cd android_libs/lapack
 
+# We will use -mfloat-abi=hard to compile other OpenBLAS and Kaldi.
+# According to https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html,
+# we must compile all libraries with the same ABI.
+sed -i 's/-mfloat-abi=softfp/-mfloat-abi=hard/g' jni/Application.mk
+
 # remove some compile instructions related to tests
 sed -i 's/LOCAL_MODULE:= testlapack/#LOCAL_MODULE:= testlapack/g' jni/Android.mk
 sed -i 's/LOCAL_SRC_FILES:= testclapack.cpp/#LOCAL_SRC_FILES:= testclapack.cpp/g' jni/Android.mk
@@ -98,14 +108,16 @@ sed -i 's/include $(BUILD_SHARED_LIBRARY)/#include $(BUILD_SHARED_LIBRARY)/g' jn
 
 Libs will be created in `obj/local/armeabi-v7a/`.
 
-**Copy libs from `obj/local/armeabi-v7a/` to the same place you installed OpenBlas**.
+**Copy libs from `obj/local/armeabi-v7a/` to the same place you installed OpenBLAS libraries
+(e.g: OpenBlas/install/lib)**.
 Kaldi will look at this  directory for libf2c.a, liblapack.a, libclapack.a and libblas.a.
 
 
 ## Compile kaldi for Android
 
 The following instructions should work with the most recent version of Kaldi.
-If it doesn't, you may checkout commit SHA 25ca8e4b0.
+If it doesn't, you may checkout commit SHA c68a576b. But, I insist you should
+try the most recent Kaldi commit.
 
 #### Download kaldi source code
 
@@ -170,3 +182,5 @@ just copied it to `/system/lib`.
 <https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android>
 
 <http://stackoverflow.com/questions/22774009/android-ndk-stdto-string-support>
+
+<https://github.com/xianyi/OpenBLAS/issues/539>
