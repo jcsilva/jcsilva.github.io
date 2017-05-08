@@ -66,7 +66,8 @@ make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 NUM_THREAD
 OBS: The variable **NUM_THREADS** does not need to be always set to 32. In my case, I had
 problems when running in my phone. I received the message: 
 `BLAS : Program is Terminated. Because you tried to allocate too many memory regions.`. 
-Looking for solutions, I found this instruction at OpenBLAS FAQ (https://github.com/xianyi/OpenBLAS/wiki/faq#allocmorebuffers):
+Looking for solutions, I found this instruction at OpenBLAS FAQ 
+(<https://github.com/xianyi/OpenBLAS/wiki/faq#allocmorebuffers>):
 
 ```
 [...] This error indicates that the program exceeded the number of buffers.
