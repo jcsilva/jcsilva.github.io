@@ -171,8 +171,8 @@ make -j 4
 
 When using Kaldi in Android you may need to install `libc++_shared.so` (which is
 located at `/tmp/my-android-toolchain/arm-linux-androideabi/lib/armv7-a/` in your
-host machine) in your Android system. As I was working with a rooted phone, I
-just copied it to `/system/lib`.
+host machine) in your Android system. As I was working with a rooted Android 5.1 
+phone, I just copied it to `/system/lib`.
 
 ## References
 
