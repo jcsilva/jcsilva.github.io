@@ -60,13 +60,13 @@ where `/tmp/my-android-toolchain` is the path to the standalone-toolchain instal
 #### Build for ARMV7
 
 ```
-make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NOFORTRAN=1 NUM_THREADS=32 libs
+make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NO_SHARED=1 NOFORTRAN=1 NUM_THREADS=32 libs
 ```
 
 OBS: The variable **NUM_THREADS** does not need to be always set to 32. In my case, I had
-problems when running in my phone. I received the message: 
-`BLAS : Program is Terminated. Because you tried to allocate too many memory regions.`. 
-Looking for solutions, I found this instruction at OpenBLAS FAQ 
+problems when running in my phone. I received the message:
+`BLAS : Program is Terminated. Because you tried to allocate too many memory regions.`.
+Looking for solutions, I found this instruction at OpenBLAS FAQ
 (<https://github.com/xianyi/OpenBLAS/wiki/faq#allocmorebuffers>):
 
 ```
@@ -78,7 +78,7 @@ For example, make NUM_THREADS=32 or make NUM_THREADS=64 [...]
 #### Install library
 
 ```
-make install PREFIX=`pwd`/install
+make install NO_SHARED=1 PREFIX=`pwd`/install
 ```
 
 
@@ -171,8 +171,13 @@ make -j 4
 
 When using Kaldi in Android you may need to install `libc++_shared.so` (which is
 located at `/tmp/my-android-toolchain/arm-linux-androideabi/lib/armv7-a/` in your
-host machine) in your Android system. As I was working with a rooted Android 5.1 
+host machine) in your Android system. As I was working with a rooted Android 5.1
 phone, I just copied it to `/system/lib`.
+
+## Docker
+
+All these instructions were summarized in a Dockerfile that may be find at
+<https://github.com/jcsilva/docker-kaldi-android>.
 
 ## References
 
