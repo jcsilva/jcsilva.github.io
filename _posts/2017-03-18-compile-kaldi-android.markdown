@@ -176,7 +176,7 @@ phone, I just copied it to `/system/lib`.
 
 ## Docker
 
-All these instructions were summarized in a Dockerfile that may be find at
+All these instructions were summarized in a Dockerfile that may be found at
 <https://github.com/jcsilva/docker-kaldi-android>.
 
 ## References
