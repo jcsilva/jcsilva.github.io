@@ -6,30 +6,32 @@ author:     "Eduardo Silva"
 header-img: "img/post-bg-02.jpg"
 ---
 
-The following instructions were tested in Ubuntu 16.04.
+The following instructions were tested in Ubuntu 16.04, 64 bits.
 
 ## Download Android NDK
 
-To compile native code you need the following component:
+To compile native code you will need to download the Android NDK 14b.
+It seems there are some problems when compiling Kaldi using another NDK version
+(for instance, r15). I didn't have time to find out the reason. If you discover
+it, please e-mail me and I will update this post accordingly.
 
-* The Android Native Development Kit (NDK): a set of tools that allows you to use C and C++ code with Android.
-You can install this component using the SDK Manager:
+```
+wget -q --output-document=android-ndk.zip https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
+```
 
-1. From an open project, select **Tools > Android > SDK Manager** from the main menu.
-2. Click the SDK Tools tab.
-3. Check the boxes next to NDK.
-4. Click Apply, and then click OK in the next dialog.
-5. When the installation is complete, click Finish, and then click OK.
+After that, please, unzip `android-ndk.zip`. In this example we will call
+`<NDK root dir>` the absolute path to the unzipped directory.
 
-Finally, install the toolchain. You **must** explicitly specify `--stl=libc++`, to copy LLVM libc++ headers and libraries:
+Finally, install the toolchain. You **must** explicitly specify `--stl=libc++`,
+to copy LLVM libc++ headers and libraries:
 
 ```
 <NDK root dir>/build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl=libc++ --install-dir /tmp/my-android-toolchain
 ```
 
-This command creates a directory named /tmp/my-android-toolchain/,
-containing a copy of the android-21/arch-arm sysroot,
-and of the toolchain binaries for a 32-bit ARM architecture.
+This command creates a directory named /tmp/my-android-toolchain/, containing a
+copy of the android-21/arch-arm sysroot, and of the toolchain binaries for a
+32-bit ARM architecture.
 
 For more details about it, please read <https://developer.android.com/ndk/guides/standalone_toolchain.html>.
 
@@ -178,6 +180,14 @@ phone, I just copied it to `/system/lib`.
 
 All these instructions were summarized in a Dockerfile that may be found at
 <https://github.com/jcsilva/docker-kaldi-android>.
+
+
+## Updates
+
+25/07/2017 - *Docker* section was included.
+
+28/07/2017 - *Download Android NDK* section was update.
+
 
 ## References
 
