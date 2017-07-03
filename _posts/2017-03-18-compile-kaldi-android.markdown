@@ -62,7 +62,7 @@ where `/tmp/my-android-toolchain` is the path to the standalone-toolchain instal
 #### Build for ARMV7
 
 ```
-make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NO_SHARED=1 NOFORTRAN=1 NUM_THREADS=32 libs
+make TARGET=ARMV7 HOSTCC=gcc CC=arm-linux-androideabi-gcc NO_SHARED=1 NOFORTRAN=1 USE_THREAD=0 NUM_THREADS=32 libs
 ```
 
 OBS: The variable **NUM_THREADS** does not need to be always set to 32. In my case, I had
@@ -184,9 +184,11 @@ All these instructions were summarized in a Dockerfile that may be found at
 
 ## Updates
 
-25/07/2017 - *Docker* section was included.
+25/06/2017 - *Docker* section was included.
 
-28/07/2017 - *Download Android NDK* section was update.
+28/06/2017 - *Download Android NDK* section was update.
+
+03/07/2017 - Explicitly set *USE_THREAD=0* when compiling OpenBLAS.
 
 
 ## References
